@@ -1,6 +1,9 @@
 package com.example.nycschool;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -12,7 +15,9 @@ import com.example.nycschool.http.SchoolDataAPIservice;
 import com.example.nycschool.root.App;
 import com.example.nycschool.schools.SchoolsMvp;
 import com.example.nycschool.schools.model.SchoolsData;
+import com.example.nycschool.schools.view.ListSchoolsAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements SchoolsMvp.View{
     @Inject
     SchoolsMvp.Presenter presenter;
 
+    private ListSchoolsAdapter listAdapter;
+    private List<SchoolsData> resultList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +50,13 @@ public class MainActivity extends AppCompatActivity implements SchoolsMvp.View{
         ((App) getApplication()).getComponent().inject(this);
         ButterKnife.bind(this);
 
+        listAdapter = new ListSchoolsAdapter(resultList);
 
+        recyclerView.setAdapter(listAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -53,4 +66,17 @@ public class MainActivity extends AppCompatActivity implements SchoolsMvp.View{
         presenter.loadData();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        resultList.clear();
+        listAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateData(List<SchoolsData> data) {
+        if (data != null) {
+            resultList.addAll(data);
+        }
+    }
 }

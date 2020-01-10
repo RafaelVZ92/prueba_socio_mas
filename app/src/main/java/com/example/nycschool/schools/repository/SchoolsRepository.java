@@ -13,23 +13,24 @@ import retrofit2.Response;
 
 public class SchoolsRepository implements Repository{
 
-    public static final String TAG = SchoolsRepository.class.getSimpleName();
+    private static final String TAG = SchoolsRepository.class.getSimpleName();
 
     private SchoolDataAPIservice schoolData;
-
+    private List<SchoolsData> data = null;
     public SchoolsRepository(SchoolDataAPIservice schoolData) {
         this.schoolData = schoolData;
     }
 
     @Override
-    public void getResultFromNetwork() {
+    public List<SchoolsData> getResultFromNetwork() {
         schoolData.getHighSchools(10).enqueue(new Callback<List<SchoolsData>>() {
             @Override
             public void onResponse(Call<List<SchoolsData>> call, Response<List<SchoolsData>> response) {
-                List<SchoolsData> data = response.body();
+                data = response.body();
                 for (SchoolsData datos : data) {
                     Log.d(TAG, "Response2: "+ datos.getSchoolName());
                 }
+
             }
 
             @Override
@@ -38,6 +39,8 @@ public class SchoolsRepository implements Repository{
             }
         });
 
+        return data;
     }
+
 }
 

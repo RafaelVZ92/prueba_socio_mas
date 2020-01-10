@@ -6,19 +6,19 @@ import com.example.nycschool.schools.repository.Repository;
 public class SchoolsPresenter implements SchoolsMvp.Presenter {
 
     private SchoolsMvp.View view;
-    private Repository repository;
+    private SchoolsMvp.Interactor interactor;
 
-    public SchoolsPresenter(Repository repository) {
-        this.repository = repository;
+    public SchoolsPresenter(SchoolsMvp.Interactor interactor) {
+        this.interactor = interactor;
     }
 
     @Override
     public void loadData() {
-        repository.getResultFromNetwork();
+        view.updateData(interactor.result());
     }
 
     @Override
     public void setView(SchoolsMvp.View view) {
-
+        this.view = view;
     }
 }
