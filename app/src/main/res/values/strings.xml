@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NycSchool</string>
+    <string name="dbn">02M260</string>
+    <string name="school_name"><![CDATA[Clinton School Writers & Artists, M.S. 260]]></string>
+    <string name="location">10 East 15th Street, Manhattan NY 10003 (40.736526, -73.992727)</string>
+    <string name="website">www.theclintonschool.net</string>
+    <string name="school_email">admissions@theclintonschool.net</string>
+</resources>
