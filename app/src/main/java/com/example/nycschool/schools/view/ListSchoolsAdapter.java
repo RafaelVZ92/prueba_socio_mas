@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,17 +18,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ListSchoolsAdapter extends RecyclerView.Adapter<ListSchoolsAdapter.ListItemViewHolder>{
+    public static final String TAG = ListSchoolsAdapter.class.getSimpleName();
     private List<SchoolsData> list;
+    private ListItemViewHolder.OnDetailListener mDetailListener;
 
-    public ListSchoolsAdapter(List<SchoolsData> list) {
+    public ListSchoolsAdapter(List<SchoolsData> list, ListItemViewHolder.OnDetailListener mDetailListener) {
         this.list = list;
+        this.mDetailListener = mDetailListener;
     }
+
+   /* public ListSchoolsAdapter(List<SchoolsData> list) {
+        this.list = list;
+    }*/
 
     @NonNull
     @Override
     public ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.hschool_item, parent, false);
-        return new ListItemViewHolder(itemView);
+        return new ListItemViewHolder(itemView, mDetailListener);
     }
 
     @Override
@@ -44,7 +52,7 @@ public class ListSchoolsAdapter extends RecyclerView.Adapter<ListSchoolsAdapter.
         return this.list.size();
     }
 
-    public static class ListItemViewHolder extends RecyclerView.ViewHolder{
+    public static class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.text_view_id)
         public TextView id;
@@ -61,10 +69,23 @@ public class ListSchoolsAdapter extends RecyclerView.Adapter<ListSchoolsAdapter.
         @BindView(R.id.text_view_email)
         public TextView email;
 
-        public ListItemViewHolder(@NonNull View itemView) {
-            super(itemView);
+        OnDetailListener onDetailListener;
 
+        public ListItemViewHolder(@NonNull View itemView, OnDetailListener detailListener) {
+            super(itemView);
+            this.onDetailListener = detailListener;
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onDetailListener.onClickListener(getAdapterPosition());
+        }
+
+        public interface OnDetailListener{
+            void onClickListener(int position);
+        }
+
     }
 }

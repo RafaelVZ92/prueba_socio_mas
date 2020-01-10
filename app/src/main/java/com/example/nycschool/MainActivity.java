@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import com.example.nycschool.datailschool.DetailSchool;
 import com.example.nycschool.http.SchoolDataAPIModule;
 import com.example.nycschool.http.SchoolDataAPIservice;
 import com.example.nycschool.root.App;
@@ -28,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements SchoolsMvp.View{
+public class MainActivity extends AppCompatActivity implements SchoolsMvp.View, ListSchoolsAdapter.ListItemViewHolder.OnDetailListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements SchoolsMvp.View{
             }
         }
 
-        listAdapter = new ListSchoolsAdapter(resultList);
+        listAdapter = new ListSchoolsAdapter(resultList, this);
 
         recyclerView.setAdapter(listAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
@@ -84,5 +86,12 @@ public class MainActivity extends AppCompatActivity implements SchoolsMvp.View{
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
+    }
+
+    @Override
+    public void onClickListener(int position) {
+        Intent intent = new Intent(this, DetailSchool.class);
+        intent.putExtra("id", resultList.get(position).getDbn());
+        startActivity(intent);
     }
 }

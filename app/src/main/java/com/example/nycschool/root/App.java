@@ -2,7 +2,9 @@ package com.example.nycschool.root;
 
 import android.app.Application;
 
+import com.example.nycschool.datailschool.DetailModule;
 import com.example.nycschool.http.SchoolDataAPIModule;
+import com.example.nycschool.http.SchoolDetailAPIModule;
 import com.example.nycschool.schools.SchoolsModule;
 
 public class App extends Application {
@@ -15,6 +17,8 @@ public class App extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .schoolDataAPIModule(new SchoolDataAPIModule())
                 .schoolsModule(new SchoolsModule())
+                .schoolDetailAPIModule(new SchoolDetailAPIModule())
+                .detailModule(new DetailModule())
                 .build();
     }
 
