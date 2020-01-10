@@ -50,13 +50,7 @@ public class MainActivity extends AppCompatActivity implements SchoolsMvp.View{
         ((App) getApplication()).getComponent().inject(this);
         ButterKnife.bind(this);
 
-        listAdapter = new ListSchoolsAdapter(resultList);
 
-        recyclerView.setAdapter(listAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setHasFixedSize(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -76,7 +70,19 @@ public class MainActivity extends AppCompatActivity implements SchoolsMvp.View{
     @Override
     public void updateData(List<SchoolsData> data) {
         if (data != null) {
-            resultList.addAll(data);
+            for (SchoolsData datos : data) {
+                resultList.add(datos);
+            }
         }
+
+        listAdapter = new ListSchoolsAdapter(resultList);
+
+        recyclerView.setAdapter(listAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
 }

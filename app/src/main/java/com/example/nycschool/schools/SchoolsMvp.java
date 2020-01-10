@@ -13,10 +13,15 @@ public interface SchoolsMvp {
     interface Presenter{
         void loadData();
         void setView(SchoolsMvp.View view);
+        void onResponse(List<SchoolsData> data);
+        void onFailure(String errorMessage);
     }
 
     interface Interactor{
-        List<SchoolsData> result();
+        void result();
+        void setPresenter(SchoolsMvp.Presenter presenter);
+        void onResponse(List<SchoolsData> data);
+        void onFailure(String errorMessage);
     }
 
 }
